@@ -31,12 +31,16 @@ Physical memory is not simulated in this program
 * UP (# of memory accesses for an observation period of usage, this is the access count after which the current use bit              vector is shifted right)
  
 ### Makefile will provide the compilation, but there is no make run since test runs change based on file input:
-*                  $ make
-* main execution:  $ ./paging < trace1, ./paging < trace2, ./paging < trace3, ./paging < trace4
-* another method:  $ head -10 trace# | ./paging
-* another method:  $ ./paging -v < trace#    
-*                  $ make clean
-
+```
+                  $ make
+ main execution:  $ ./paging < trace1, 
+                  $ ./paging < trace2, 
+                  $ ./paging < trace3, 
+                  $ ./paging < trace4
+ another method:  $ head -10 trace# | ./paging
+ another method:  $ ./paging -v < trace#    
+                  $ make clean
+```
 "-v" parameter is a verbose output, when used it will printout the details of each address transaction. Without it, it will just print the amount of access, TLB misses, and Page faults*
 
 Trace files contain 24-bit hex values (6 hex digits) representing virtual memory
@@ -97,7 +101,7 @@ each time you use it to make a replacement index. You should modulo
 the incremented value by the number of TLB entries so that the
 index will stay in range.
 
-###Test outputs:
+### Test outputs:
 ```
 These examples use the configuration values as given above:
 
