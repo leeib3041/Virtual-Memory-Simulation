@@ -1,38 +1,39 @@
 # Virtual-Memory-Simulation
 Program to simulate a paged virtual memory system. It will read a virtual addresses and maintain counts of memory accesses, TLB misses, and page faults.
 
-The simulation system uses:
- >  24 bit virtual addresses  - 16-bit virtual page number (VPN) & 8-bit page offset
- > 16 bit physical addresses  - 8-bit physical frame number (PFN) & 8-bit page offset
+### The simulation system uses:
+* 24 bit virtual addresses  - 16-bit virtual page number (VPN) & 8-bit page offset
+* 16 bit physical addresses  - 8-bit physical frame number (PFN) & 8-bit page offset
  
- The simulated system also contains a single-level TLB that provides the VPN-to-FPN translation when there is a TLB hit.
+The simulated system also contains a single-level TLB that provides the VPN-to-FPN translation when there is a TLB hit.
  
- This is a simple simulation, the memory accesses are not categorized as reads, instruction fetches, or writes. Although, it can be added to the implementation in the future. Therefore, all the accesses are treated as reads, so there is no need to track dirty pages and no need to verify page access permissions.
+This is a simple simulation, the memory accesses are not categorized as reads, instruction fetches, or writes. Although, it can be added to the implementation in the future. Therefore, all the accesses are treated as reads, so there is no need to track dirty pages and no need to verify page access permissions.
  
  Page table is indexed by VPN - pseudo-LRU policy based on vector of use bits
    Core map is indexed by PFN - pseudo-LRU policy based on vector of use bits
                           TLB - fully-associative (can be simulated with  a linear search, FIFO policy
 * Physical memory is not simulated in this program
 
-Files include:
- > paging.cpp   - program
- > makefile     - simple makefile, nothing special
- > trace1       - basic test, uses paging.cfg
- > trace2       - all misses (TLB and page faults) test, uses paging.cfg
- > trace3       - forces verbose print out in middle of execution test, uses paging.cfg
- > trace4       - a more complicated testing, use paging1.cfg (must be changed within the code)
- > paging.cfg   -
- > paging1.cfg  -
+### Files include:
+* paging.cpp   - program
+* makefile     - simple makefile, nothing special
+* trace1       - basic test, uses paging.cfg
+* trace2       - all misses (TLB and page faults) test, uses paging.cfg
+* trace3       - forces verbose print out in middle of execution test, uses paging.cfg
+* trace4       - a more complicated testing, use paging1.cfg (must be changed within the code)
+* paging.cfg   
+* paging1.cfg  
  
-paging config files have 3 lines each:
- > PF (# of page frame)                                         
- > TE (# of table entries)                                      
- > UP (# of memory accesses for an observation period of usage, this is the access count after which the current use bit              vector is shifted right)
+### paging config files have 3 lines each:
+* PF (# of page frame)                                         
+* TE (# of table entries)                                      
+* UP (# of memory accesses for an observation period of usage, this is the access count after which the current use bit              vector is shifted right)
  
 Makefile will provide the compilation, but there is no make run since test runs change based on file input:
 main execution:   ./paging < trace1, ./paging < trace2, ./paging < trace3, ./paging < trace4
-another method:   head -10 trace# | ./paging
-another method:   ./paging -v < trace#           # "-v" parameter is a verbose output, when used it will printout the details                                                     of each address transaction. Without it, it will just print the amount of                                                     access, TLB misses, and Page faults
+another method:   head -10 trace(1,2,3,4) | ./paging
+another method:   ./paging -v < trace(1,2,3,4)    
+*"-v" parameter is a verbose output, when used it will printout the details of each address transaction. Without it, it will just print the amount of access, TLB misses, and Page faults*
 
 Trace files contain 24-bit hex values (6 hex digits) representing virtual memory
 
@@ -41,25 +42,22 @@ Trace files contain 24-bit hex values (6 hex digits) representing virtual memory
 This is a high-level design of decisions and actions. You must
 further include the appropriate updates to the maintained counts.
 
-1) Check the TLB
+1. Check the TLB
 
-  2A) If there is a TLB hit, use the PFN from the TLB entry to
+2. If there is a TLB hit, use the PFN from the TLB entry to
         obtain the physical address. You are done.
+ - 2b. If there is a TLB miss, check the page table.
 
-  2B) If there is a TLB miss, check the page table.
-
-    3A) If the presence bit is on, this is a page hit. Use the
-          PFN from the page table entry to obtain the physical
-          address. Update the TLB. You are done.
-
-    3B) If the presence bit is off, this is a page fault. Check
+3. If the presence bit is on, this is a page hit. Use the
+    PFN from the page table entry to obtain the physical
+    address. Update the TLB. You are done.
+ - 3b. If the presence bit is off, this is a page fault. Check
           for free frames.
 
-      4A) If there is a free frame, map the virtual page to that
+4. If there is a free frame, map the virtual page to that
             frame by updating the page table and the core map.
             Update the TLB. You are done.
-
-      4B) If there is no free frame, search the core map for
+ - 4b. If there is no free frame, search the core map for
             the first frame with the lowest-valued use vector.
             Replace that frame. Update the page table and core
             map to reflect that the old mapping is broken.
