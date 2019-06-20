@@ -17,7 +17,7 @@ Physical memory is not simulated in this program
 
 ### Files include:
 * paging.cpp   - program
-* makefile     - simple makefile, nothing special
+* Makefile     - simple makefile, nothing special
 * trace1       - basic test, uses paging.cfg
 * trace2       - all misses (TLB and page faults) test, uses paging.cfg
 * trace3       - forces verbose print out in middle of execution test if hex digts are > 6, uses paging.cfg
