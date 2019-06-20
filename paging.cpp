@@ -1,33 +1,3 @@
- /*  
-    Hyeop Lee
-    CPSC 3220, Section 001
-    Dr. Mark Smotherman
-    Project 4
-    Due: Tuesday, June 19
-
-    ********************* HOW TO RUN **************************
-    ** Progam can be ran as given in proj4.txt after "make". **
-    ** "make clean" is also available to rm the executable.  **
-    ***********************************************************
-
-    VERSION 2 edit:
-        - line 162
-          > removed
-        - line 177
-          > removed
-        - line 264
-          > moved back to 272, removed if statement
-        - line 285 
-          > added "<< hex <<" to line 285
-          > the print out was perfect except for the tlb vpn, which printed 
-            in non hex. This did not affect the other trace tests (1,2,3), 
-            but on trace4 it printed different.
-
-    VERSION 3 edit:
-        - beautified the lines of codes (i.e. removing space between lines 
-          and moving long code to new line)
-        - made comments
-*/
 #include <iostream>
 #include <fstream>
 #include <iomanip>
