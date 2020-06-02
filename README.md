@@ -56,13 +56,22 @@ further include the appropriate updates to the maintained counts.
   
   2B. If there is a TLB miss, check the page table.
 
-      3B. If the presence bit is on, this is a page hit. Use the PFN from the page table entry to obtain the physicaL address.           Update the TLB. You are done.
+      3B. If the presence bit is on, this is a page hit. 
+          Use the PFN from the page table entry to obtain the physicaL address. 
+          Update the TLB. You are done.
     
-      3B. If the presence bit is off, this is a page fault. CheCK for free frames.
+      3B. If the presence bit is off, this is a page fault. 
+          ChecK for free frames.
 
-          4A. If there is a free frame, map the virtual page to that frame by updating the page table and the core map. Update               the TLB. You are done.
+          4A. If there is a free frame, map the virtual page to that frame by updating the page table and the core map. 
+              Update the TLB. You are done.
        
-          4B. If there is no free frame, search the core map for the first frame with the lowest-valued use vector. Replace                 that frame. Update the page table and core map to reflect that the old mapping is broken. Invalidate the TLB                   entry for the old mapping, if one exists in the TLB. Update the page table and core map to reflect the new                     mapping. Update the TLB. You are done.
+          4B. If there is no free frame, search the core map for the first frame with the lowest-valued use vector. 
+              Replace that frame. 
+              Update the page table and core map to reflect that the old mapping is broken. 
+              Invalidate the TLB entry for the old mapping, if one exists in the TLB. 
+              Update the page table and core map to reflect the new mapping. \
+              Update the TLB. You are done.
 ```
 
 ### PAGE REPLACEMENT
